@@ -2,7 +2,7 @@
 
 import { useFormState } from "react-dom";
 
-import { createDocument, createRetrieval } from "@/actions";
+import { createRetrieval } from "@/actions";
 import { SubmitButton } from "./ui/submit-button";
 import { Textarea } from "./ui/textarea";
 import { Alert } from "./ui/alert";
@@ -12,7 +12,6 @@ export default function CreateRetrievalForm() {
     status: "pending" as const,
     message: "",
   });
-  console.log(state);
   return (
     <div>
       <form action={action}>

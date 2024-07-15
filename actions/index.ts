@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { Ragie } from "ragie";
-import { ScoredChunkResponse } from "ragie/models/components";
+import { ScoredChunk } from "ragie/models/components";
 
 const ragie = new Ragie({ auth: process.env.RAGIE_API_KEY });
 
@@ -53,9 +53,9 @@ export async function deleteDocument(
 }
 
 export async function createRetrieval(
-  prevState: FormState & { results?: ScoredChunkResponse[] },
+  prevState: FormState & { results?: ScoredChunk[] },
   formData: FormData,
-): Promise<FormState & { results?: ScoredChunkResponse[] }> {
+): Promise<FormState & { results?: ScoredChunk[] }> {
   try {
     const res = await ragie.retrievals.retrieve({
       query: formData.get("query") as string,

@@ -2,8 +2,10 @@
 import { Ragie } from "ragie";
 import Link from "next/link";
 
-import CreateDocumentForm from "@/components/create-document-form";
 import DeleteDocumentButton from "@/components/delete-document-button";
+import CreateDocumentForm from "@/components/create-document-form";
+import CreateRetrievalForm from "@/components/create-retrieval-form";
+import MetadataFilter from "@/components/metadata-filter";
 import {
   Table,
   TableBody,
@@ -13,7 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import CreateRetrievalForm from "@/components/create-retrieval-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ragie = new Ragie({ auth: process.env.RAGIE_API_KEY });
@@ -21,11 +22,17 @@ const ragie = new Ragie({ auth: process.env.RAGIE_API_KEY });
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { cursor?: string };
+  searchParams: { cursor?: string; filter?: string };
 }) {
-  const listRes = await ragie.documents.list(
-    searchParams.cursor ? { cursor: searchParams.cursor } : undefined,
-  );
+  try {
+    var listRes = await ragie.documents.list({
+      cursor: searchParams.cursor,
+      filter: searchParams.filter || "",
+    });
+  } catch (error: unknown) {
+    console.error(error);
+    return <div>{JSON.stringify(error)}</div>;
+  }
 
   return (
     <main className="min-h-screen p-10">
@@ -40,7 +47,8 @@ export default async function Home({
         <TabsContent value="documents">
           <div className="flex gap-10">
             <CreateDocumentForm />
-            {!!listRes.result.documents && (
+            <div>
+              <MetadataFilter filter={searchParams.filter} />
               <Table className="border">
                 <TableHeader>
                   <TableRow>
@@ -77,7 +85,7 @@ export default async function Home({
                     <TableCell className="text-right" colSpan={6}>
                       {listRes.result.pagination.nextCursor && (
                         <Link
-                          href={`/?cursor=${listRes.result.pagination.nextCursor}`}
+                          href={`/?cursor=${listRes.result.pagination.nextCursor}&filter=${searchParams.filter}`}
                         >
                           Next
                         </Link>
@@ -86,7 +94,7 @@ export default async function Home({
                   </TableRow>
                 </TableFooter>
               </Table>
-            )}
+            </div>
           </div>
         </TabsContent>
         <TabsContent value="retrievals">
