@@ -1,6 +1,6 @@
 ## Intent
 
-This is an example project to demonstrate the features of ragie.ai's [typescript client](https://www.npmjs.com/package/ragie). It may also be used to add documents to your ragie.ai tenant and test retrieving results.
+This is an example project to demonstrate the features of ragie.ai's [typescript SDK](https://www.npmjs.com/package/ragie). It may also be used to add data to your ragie.ai account and test various features.
 
 ## Getting Started
 
