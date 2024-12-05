@@ -10,7 +10,11 @@ import DocumentsTable from "@/components/documents-table";
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { cursor?: string; filter?: string };
+  searchParams: { 
+    cursor?: string; 
+    filter?: string;
+    partition?: string;
+  };
 }) {
   return (
     <main className="min-h-screen p-10">
@@ -27,7 +31,10 @@ export default async function Home({
           <div className="flex gap-10">
             <CreateDocumentForm />
             <Suspense fallback={<div>Loading...</div>}>
-              <DocumentsTable filter={searchParams.filter || ""} />
+              <DocumentsTable 
+                filter={searchParams.filter || ""} 
+                partition={searchParams.partition || ""}
+              />
             </Suspense>
           </div>
         </TabsContent>
