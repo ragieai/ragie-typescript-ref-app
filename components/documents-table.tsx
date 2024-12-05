@@ -17,18 +17,21 @@ import UpdateDocumentDialog from "./update-document-dialog";
 
 export default async function DocumentsTable({
   filter,
+  partition,
   cursor,
 }: {
   filter?: string;
+  partition?: string;
   cursor?: string;
 }) {
   const listRes = await ragie.documents.list({
     cursor,
     filter,
+    partition,
   });
   return (
     <div>
-      <MetadataFilter filter={filter} />
+      <MetadataFilter filter={filter} partition={partition} />
       <Table className="border">
         <TableHeader>
           <TableRow>
@@ -69,7 +72,7 @@ export default async function DocumentsTable({
             <TableCell className="text-right" colSpan={6}>
               {listRes.result.pagination.nextCursor && (
                 <Link
-                  href={`/?cursor=${listRes.result.pagination.nextCursor}&filter=${filter}`}
+                  href={`/?cursor=${listRes.result.pagination.nextCursor}&filter=${filter}&partition=${partition}`}
                 >
                   Next
                 </Link>

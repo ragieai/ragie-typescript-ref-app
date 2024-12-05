@@ -5,8 +5,15 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
+import { Input } from "./ui/input";
 
-export default function MetadataFilter({ filter }: { filter?: string }) {
+export default function MetadataFilter({ 
+  filter,
+  partition 
+}: { 
+  filter?: string;
+  partition?: string;
+}) {
   const router = useRouter();
   return (
     <form
@@ -15,18 +22,31 @@ export default function MetadataFilter({ filter }: { filter?: string }) {
         evt.preventDefault();
         const formData = new FormData(evt.target as HTMLFormElement);
         const filter = (formData.get("filter") as string) || "";
-        router.push(`/?filter=${filter}`);
+        const partition = (formData.get("partition") as string) || "";
+        router.push(`/?filter=${filter}&partition=${partition}`);
       }}
     >
-      <label htmlFor="filter">Filter</label>
-      <Textarea
-        name="filter"
-        placeholder={'{ "foo": {"$eq": "bar"}'}
-        defaultValue={filter}
-      />
-      <Button type="submit" variant="secondary">
-        Filter
-      </Button>
+      <div className="space-y-4">
+        <div>
+          <label htmlFor="filter">Filter</label>
+          <Textarea
+            name="filter"
+            placeholder={'{ "foo": {"$eq": "bar"}'}
+            defaultValue={filter}
+          />
+        </div>
+        <div>
+          <label htmlFor="partition">Partition</label>
+          <Input
+            name="partition"
+            placeholder="user_123"
+            defaultValue={partition}
+          />
+        </div>
+        <Button type="submit" variant="secondary">
+          Filter
+        </Button>
+      </div>
     </form>
   );
 }
