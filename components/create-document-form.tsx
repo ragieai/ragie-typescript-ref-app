@@ -58,7 +58,7 @@ export default function CreateDocumentForm() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="fast">Fast</SelectItem>
-                  <SelectItem value="hires">Hires</SelectItem>
+                  <SelectItem value="hi_res">Hi-Res</SelectItem>
                 </SelectContent>
               </Select>
             </div>
