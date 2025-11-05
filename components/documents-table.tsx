@@ -14,6 +14,7 @@ import {
 import ragie from "@/lib/ragie-client";
 import EditDocumentMetadataDialog from "./edit-document-metadata-dialog";
 import UpdateDocumentDialog from "./update-document-dialog";
+import DownloadDocumentButton from "./download-document-button";
 
 export default async function DocumentsTable({
   filter,
@@ -63,6 +64,10 @@ export default async function DocumentsTable({
               </TableCell>
               <TableCell>
                 <DeleteDocumentButton documentId={doc.id} />
+                <DownloadDocumentButton
+                  documentId={doc.id}
+                  filename={doc.name}
+                />
               </TableCell>
             </TableRow>
           ))}

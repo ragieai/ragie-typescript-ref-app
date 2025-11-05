@@ -20,7 +20,7 @@
     "next": "14.2.5",
     "npm": "^10.8.2",
     "prettier": "^3.3.2",
-    "ragie": "^1.13.0",
+    "ragie": "^1.13.1",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.4.0",
