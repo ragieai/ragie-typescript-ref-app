@@ -3,18 +3,27 @@
 import ragie from "@/lib/ragie-client";
 import { revalidatePath } from "next/cache";
 import { ScoredChunk } from "ragie/models/components";
+import { z } from "zod";
 
 type FormState = { status: "pending" | "success" | "error"; message: string };
+
+const CreateDocumentFormSchema = z.object({
+  file: z.instanceof(File),
+  metadata: z.record(z.string(), z.any()).optional().default({}),
+  mode: z.enum(["fast", "hi_res"]),
+});
+
 export async function createDocument(
   prevState: FormState,
   formData: FormData,
 ): Promise<FormState> {
   try {
-    const createRes = await ragie.documents.create({
+    const createPayload = CreateDocumentFormSchema.parse({
       file: formData.get("file") as File,
-      metadata: JSON.parse((formData.get("metadata") || "{}") as string),
+      metadata: JSON.parse((formData.get("metadata") as string) || "{}"),
       mode: formData.get("mode") as "fast" | "hi_res",
     });
+    const createRes = await ragie.documents.create(createPayload);
     revalidatePath("/");
     return {
       status: "success" as const,
